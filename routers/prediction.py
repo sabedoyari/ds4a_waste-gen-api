@@ -33,10 +33,10 @@ async def predict(X: Optional[list] = None):
 @router.get("/existing_tables")
 async def existing_tables():
 
-    query = "SELECT * FROM team43_doria.averias;"
+    query = "SELECT * FROM information_schema.tables;"
     df_averias = pd.read_sql(query, engine_rds)
 
-    return f"Tamaño de la tabla averías: {df_averias.shape}"
+    return f"Lista de tablas: {df_averias}"
 
 @router.post("/load_data")
 async def load_data(file: UploadFile = File(...)):
