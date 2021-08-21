@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import prediction
+from routers import data_manager
 
 app = FastAPI()
 
@@ -18,7 +18,7 @@ app.add_middleware(
     allow_headers = ["*"]
 )
 
-app.include_router(prediction.router)
+app.include_router(data_manager.router)
 
 @app.get("/", tags = ["Principal"])
 async def root():
