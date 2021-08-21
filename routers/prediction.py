@@ -33,16 +33,23 @@ async def predict(X: Optional[list] = None):
 @router.get("/existing_tables")
 async def existing_tables():
 
-    query = "SELECT * FROM information_schema.tables;"
-    df_averias = pd.read_sql(query, engine_rds)
+    """
+    Get the tables existing on BD to storage and process
+    the data related to production and waste generation.
+    """
 
-    return f"Lista de tablas: {df_averias}"
+    query = """SELECT table_name FROM information_schema.tables
+	    WHERE table_schema = 'team43_doria';"""
+    df_averias = pd.read_sql(query, engine_rds)
+    tables = df_averias['table_name'].to_list()
+   
+
+    return f"Lista de tablas: {tables}"
 
 @router.post("/load_data")
 async def load_data(file: UploadFile = File(...)):
 
     df_loaded = pd.read_csv(file.file, sep = ";")
-
     df_loaded.to_sql(name = "testing", con = engine_rds, schema = "team43_doria", if_exists = 'replace')
 
     return{
