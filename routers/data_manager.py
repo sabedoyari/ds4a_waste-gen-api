@@ -19,14 +19,14 @@ class response_message(BaseModel):
     msg: str
 
 @router.post("/model")
-async def predict(X: Optional[list] = None):
+async def predict(X: Optional[dict] = None):
 
     """Here will be the model"""
 
     y = []
 
-    for elem in X:
-        y.append("Data predicted: " + str(elem**2))
+    for elem in X.keys():
+        y.append("Data predicted: " + str(elem) + ":" + str(X[elem]))
 
     return y
 
